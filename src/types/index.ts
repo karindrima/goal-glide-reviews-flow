@@ -42,6 +42,38 @@ export interface Assignment {
 
 export type RaterType = 'self' | 'manager';
 
+export type ReviewRating = 'excellent' | 'good' | 'average' | 'requires_improvement';
+
+export type KraStatus = 'pending_validation' | 'validated' | 'rejected';
+export type KpiStatus = 'not_started' | 'in_progress' | 'completed';
+export type ImportanceLevel = 'high' | 'medium' | 'low';
+export type UrgencyLevel = 'high' | 'medium' | 'low';
+
+export interface Kra {
+  id: string;
+  employeeId: string;
+  cycleId: string;
+  title: string;
+  description?: string;
+  status: KraStatus;
+  importance: ImportanceLevel;
+  urgency: UrgencyLevel;
+  endDate: Date;
+  progress: number;
+  kpis: Kpi[];
+}
+
+export interface Kpi {
+  id: string;
+  kraId: string;
+  description: string;
+  target: string;
+  unit: string;
+  weight: number;
+  progress: number;
+  status: KpiStatus;
+}
+
 export interface Rating {
   id: string;
   assignmentId: string;

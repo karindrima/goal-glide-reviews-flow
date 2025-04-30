@@ -3,8 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import Dashboard from '@/components/dashboard/Dashboard';
+import KraManagement from '@/components/kra/KraManagement';
+import EmployeeProfile from '@/components/employee/EmployeeProfile';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { User, DashboardStats, ReviewCycle, ReviewWindow } from '@/types';
-import { useToast } from '@/hooks/use-toast'; // Changed from @/components/ui/toast
+import { useToast } from '@/hooks/use-toast';
 
 const DashboardPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -16,6 +19,8 @@ const DashboardPage: React.FC = () => {
     activeCycle: null,
     activeWindow: null,
   });
+  const [employeeProfile, setEmployeeProfile] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState('overview');
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -31,6 +36,9 @@ const DashboardPage: React.FC = () => {
     
     // Fetch mock dashboard data
     fetchDashboardData();
+    
+    // Fetch mock employee profile
+    fetchEmployeeProfile();
   }, [navigate]);
   
   // Mock data fetching function
@@ -67,6 +75,28 @@ const DashboardPage: React.FC = () => {
     }, 500);
   };
   
+  const fetchEmployeeProfile = () => {
+    // Simulate API delay
+    setTimeout(() => {
+      const mockProfile = {
+        id: '1',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        role: 'employee',
+        department: 'Engineering',
+        position: 'Senior Developer',
+        joinDate: new Date('2020-05-15'),
+        manager: {
+          id: '2',
+          name: 'Jane Smith',
+          email: 'jane.smith@example.com',
+        },
+      };
+      
+      setEmployeeProfile(mockProfile);
+    }, 500);
+  };
+  
   const handleLogout = () => {
     sessionStorage.removeItem('user');
     navigate('/login');
@@ -94,12 +124,32 @@ const DashboardPage: React.FC = () => {
   
   return (
     <Layout user={user} onLogout={handleLogout}>
-      <Dashboard 
-        user={user} 
-        stats={stats} 
-        exportData={handleExportData} 
-        manageCycles={user.role === 'admin' ? handleManageCycles : undefined} 
-      />
+      <div className="space-y-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="w-full">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="kra">KRA Management</TabsTrigger>
+            <TabsTrigger value="profile">My Profile</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="overview" className="mt-6">
+            <Dashboard 
+              user={user} 
+              stats={stats} 
+              exportData={handleExportData} 
+              manageCycles={user.role === 'admin' ? handleManageCycles : undefined} 
+            />
+          </TabsContent>
+          
+          <TabsContent value="kra" className="mt-6">
+            <KraManagement user={user} />
+          </TabsContent>
+          
+          <TabsContent value="profile" className="mt-6">
+            {employeeProfile && <EmployeeProfile employee={employeeProfile} />}
+          </TabsContent>
+        </Tabs>
+      </div>
     </Layout>
   );
 };
