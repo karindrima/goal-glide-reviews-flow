@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import AuthForm from '@/components/auth/AuthForm';
-import { useToast } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast'; // Changed from @/components/ui/toast
 import { useNavigate } from 'react-router-dom';
 import { User, UserRole } from '@/types';
 

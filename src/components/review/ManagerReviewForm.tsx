@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast'; // Changed from @/components/ui/toast
 import { Assignment, Rating, ReviewWindow, User } from '@/types';
 
 interface ManagerReviewFormProps {

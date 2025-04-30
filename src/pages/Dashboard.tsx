@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import Dashboard from '@/components/dashboard/Dashboard';
 import { User, DashboardStats, ReviewCycle, ReviewWindow } from '@/types';
-import { useToast } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast'; // Changed from @/components/ui/toast
 
 const DashboardPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);

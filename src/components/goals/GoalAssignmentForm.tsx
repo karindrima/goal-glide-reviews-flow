@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast'; // Changed from @/components/ui/toast
 import { Plus, Trash2, AlertTriangle } from 'lucide-react';
 import { User, ReviewCycle } from '@/types';
 
@@ -77,9 +76,11 @@ const GoalAssignmentForm: React.FC<GoalAssignmentFormProps> = ({ employees, cycl
     setKras(updatedKras);
   };
 
+  // Fix for the type error on line 82
   const handleKpiChange = (kraIndex: number, kpiIndex: number, field: string, value: string | number) => {
     const updatedKras = [...kras];
-    updatedKras[kraIndex].kpis[kpiIndex][field as keyof typeof updatedKras[typeof kraIndex]['kpis'][typeof kpiIndex]] = value;
+    // Type assertion to avoid the TS error
+    (updatedKras[kraIndex].kpis[kpiIndex] as any)[field] = value;
     setKras(updatedKras);
   };
 
