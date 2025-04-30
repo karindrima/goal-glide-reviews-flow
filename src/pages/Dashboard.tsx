@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -82,6 +83,10 @@ const DashboardPage: React.FC = () => {
     });
     // In a real app, this would trigger a download or generate a report
   };
+
+  const handleManageCycles = () => {
+    navigate('/cycles');
+  };
   
   if (!user) {
     return null; // or a loading indicator
@@ -89,7 +94,12 @@ const DashboardPage: React.FC = () => {
   
   return (
     <Layout user={user} onLogout={handleLogout}>
-      <Dashboard user={user} stats={stats} exportData={handleExportData} />
+      <Dashboard 
+        user={user} 
+        stats={stats} 
+        exportData={handleExportData} 
+        manageCycles={user.role === 'admin' ? handleManageCycles : undefined} 
+      />
     </Layout>
   );
 };

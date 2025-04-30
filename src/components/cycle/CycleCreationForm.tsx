@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast'; // Changed from @/components/ui/toast
 import { CycleCreationFormData, ReviewFrequency } from '@/types';
 
@@ -114,20 +115,18 @@ const CycleCreationForm: React.FC<CycleCreationFormProps> = ({ onSubmit }) => {
           
           <div className="space-y-2">
             <Label>Review Frequency</Label>
-            <RadioGroup 
+            <Select 
               defaultValue={formData.frequency} 
               onValueChange={(value) => handleFrequencyChange(value as ReviewFrequency)}
-              className="flex flex-col space-y-1"
             >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="quarterly" id="quarterly" />
-                <Label htmlFor="quarterly">Quarterly (4 reviews per year)</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="half-yearly" id="half-yearly" />
-                <Label htmlFor="half-yearly">Half-Yearly (2 reviews per year)</Label>
-              </div>
-            </RadioGroup>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select frequency" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="quarterly">Quarterly (4 reviews per year)</SelectItem>
+                <SelectItem value="half-yearly">Half-Yearly (2 reviews per year)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           
           <Button type="submit" className="w-full" disabled={isLoading}>
@@ -136,7 +135,7 @@ const CycleCreationForm: React.FC<CycleCreationFormProps> = ({ onSubmit }) => {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between text-xs text-muted-foreground">
-        <p>Review windows will be automatically generated based on the cycle dates.</p>
+        <p>Review windows will be automatically generated based on the cycle dates and frequency.</p>
       </CardFooter>
     </Card>
   );

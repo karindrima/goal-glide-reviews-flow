@@ -1,19 +1,19 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DashboardStats, ReviewCycle, User, UserRole } from '@/types';
-import { AlertTriangle, Calendar, CheckCircle, Clock, Download, FileText, PieChart, UserCircle } from 'lucide-react';
+import { DashboardStats, ReviewCycle, User } from '@/types';
+import { AlertTriangle, Calendar, CheckCircle, Clock, Download, FileText, PieChart, Settings, UserCircle } from 'lucide-react';
 
 interface DashboardProps {
   user: User;
   stats: DashboardStats;
   exportData?: () => void;
+  manageCycles?: () => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ user, stats, exportData }) => {
+const Dashboard: React.FC<DashboardProps> = ({ user, stats, exportData, manageCycles }) => {
   const { activeCycle, activeWindow, employeesWithGoals, totalEmployees, completedReviews, pendingReviews } = stats;
   
   const goalsCompletionRate = totalEmployees > 0 ? (employeesWithGoals / totalEmployees) * 100 : 0;
@@ -31,12 +31,21 @@ const Dashboard: React.FC<DashboardProps> = ({ user, stats, exportData }) => {
           </p>
         </div>
         
-        {user.role === 'admin' && activeCycle?.status === 'closed' && (
-          <Button onClick={exportData} className="flex items-center gap-2">
-            <Download className="h-4 w-4" />
-            Export Data
-          </Button>
-        )}
+        <div className="flex gap-2">
+          {manageCycles && user.role === 'admin' && (
+            <Button onClick={manageCycles} variant="outline" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              Manage Cycles
+            </Button>
+          )}
+          
+          {user.role === 'admin' && activeCycle?.status === 'closed' && (
+            <Button onClick={exportData} className="flex items-center gap-2">
+              <Download className="h-4 w-4" />
+              Export Data
+            </Button>
+          )}
+        </div>
       </div>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
