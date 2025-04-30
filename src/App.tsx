@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Cycles from "./pages/Cycles";
+import Team from "./pages/Team"; // Add import for Team page
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cycles" element={<Cycles />} />
+          <Route path="/team" element={<Team />} /> {/* Add Team route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
